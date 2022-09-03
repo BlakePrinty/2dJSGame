@@ -6,6 +6,8 @@ canvas.height = 576;
 
 context.fillRect(0, 0, canvas.width, canvas.height);
 
+const gravity = 0.2;
+
 class Sprite {
     constructor({ position, velocity }) {
         this.position = position;
@@ -22,13 +24,22 @@ class Sprite {
     update() {
         this.draw();
 
-        this.position.x += this.velocity.x;
         this.position.y += this.velocity.y;
+        this.position.x += this.velocity.x;
 
-        if (this.position.y + this.height + this.velocity.y >= canvas.height) {
-            this.velocity.y = 0;
+        // Prevent the character from going off the canvas
+
+        if (this.position.x + this.velocity.x < 0) {
+            this.position.x = 0;
+        } else if (this.position.x + this.velocity.x > canvas.width - this.width) {
+            this.position.x = canvas.width - this.width;
         }
 
+        if (this.position.y + this.velocity.y < 0) {
+            this.position.y = 0;
+        } else if (this.position.y + this.velocity.y > canvas.height - this.height) {
+            this.position.y = canvas.height - this.height;
+        }
 
     }
 }
