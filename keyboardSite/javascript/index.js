@@ -6,8 +6,6 @@ canvas.height = 576;
 
 context.fillRect(0, 0, canvas.width, canvas.height);
 
-const gravity = 0.2;
-
 class Sprite {
     constructor({ position, velocity }) {
         this.position = position;
@@ -29,14 +27,14 @@ class Sprite {
 
         if (this.position.y + this.height + this.velocity.y >= canvas.height) {
             this.velocity.y = 0;
-        } else {  
-            this.velocity.y += gravity;
         }
+
+
     }
 }
 
 const player = new Sprite({
-    position: { x: 0, y: 0 },
+    position: { x: 512 - 32, y: 288 - 32 },
     velocity: {
         x: 0,
         y: 0
@@ -48,6 +46,12 @@ const keys = {
         pressed: false
     },
     d: {
+        pressed: false
+    },
+    w: {
+        pressed: false
+    },
+    s: {
         pressed: false
     }
 }
@@ -61,11 +65,16 @@ function animate() {
     player.update();
 
     player.velocity.x = 0;
+    player.velocity.y = 0;
 
     if (keys.a.pressed && lastKey === "a") {
-        player.velocity.x = -1;
+        player.velocity.x = -5;
     } else if (keys.d.pressed && lastKey === "d") {
-        player.velocity.x = 1;
+        player.velocity.x = 5;
+    } else if (keys.w.pressed && lastKey === "w") {
+        player.velocity.y = -4;
+    } else if (keys.s.pressed && lastKey === "s") {
+        player.velocity.y = 4;
     }
 }
 
@@ -82,6 +91,14 @@ window.addEventListener("keydown", (keyPressed) => {
             keys.a.pressed = true;
             lastKey = "a";
             break;
+        case "w":
+            keys.w.pressed = true;
+            lastKey = "w";
+            break;  
+        case "s":
+            keys.s.pressed = true;
+            lastKey = "s";
+            break;
     }
 
 });
@@ -94,6 +111,12 @@ window.addEventListener("keyup", (keyPressed) => {
             break;
         case "a":
             keys.a.pressed = false;
+            break;
+        case "w":
+            keys.w.pressed = false;
+            break;
+        case "s":
+            keys.s.pressed = false;
             break;
     }
 
