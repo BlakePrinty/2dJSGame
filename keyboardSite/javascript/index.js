@@ -1,19 +1,23 @@
 const canvas = document.querySelector("canvas");
 const context = canvas.getContext("2d");
 
-canvas.width = 1024;
-canvas.height = 576;
+canvas.width = 1600;
+canvas.height = 800;
+
+const spriteHeight = 64;
+const spriteWidth = 64;
+
+const spriteSpeedX = 10;
+const spriteSpeedY = 8;
 
 context.fillRect(0, 0, canvas.width, canvas.height);
-
-const gravity = 0.2;
 
 class Sprite {
     constructor({ position, velocity }) {
         this.position = position;
         this.velocity = velocity;
-        this.height = 64;
-        this.width = 64;
+        this.height = spriteHeight;
+        this.width = spriteWidth;
     }
 
     draw() {
@@ -45,7 +49,7 @@ class Sprite {
 }
 
 const player = new Sprite({
-    position: { x: 512 - 32, y: 288 - 32 },
+    position: { x: (canvas.width / 2) - (spriteWidth / 2), y: (canvas.height / 2) - (spriteHeight / 2) },
     velocity: {
         x: 0,
         y: 0
@@ -79,13 +83,13 @@ function animate() {
     player.velocity.y = 0;
 
     if (keys.a.pressed && lastKey === "a") {
-        player.velocity.x = -5;
+        player.velocity.x = -spriteSpeedX;
     } else if (keys.d.pressed && lastKey === "d") {
-        player.velocity.x = 5;
+        player.velocity.x = spriteSpeedX;
     } else if (keys.w.pressed && lastKey === "w") {
-        player.velocity.y = -4;
+        player.velocity.y = -spriteSpeedY;
     } else if (keys.s.pressed && lastKey === "s") {
-        player.velocity.y = 4;
+        player.velocity.y = spriteSpeedY;
     }
 }
 
